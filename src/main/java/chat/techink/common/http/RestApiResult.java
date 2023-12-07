@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.lang.Nullable;
@@ -19,6 +20,9 @@ import java.io.IOException;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RestApiResult<T> {
+    @JsonIgnore
+    private HttpHeaders headers;
+
     private String code;
 
     private String title;
@@ -36,11 +40,38 @@ public class RestApiResult<T> {
 
 
     private RestApiResult(Builder<T> builder) {
+        this.headers = new HttpHeaders();
         this.code = builder.code;
         this.title = builder.title;
         this.content = builder.content;
         this.status = builder.status;
         this.detail = builder.detail;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public T getContent() {
+        return content;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    @Nullable
+    public ProblemDetail getDetail() {
+        return detail;
+    }
+
+
+    public void addHeader(String key, String value) {
+        headers.add(key, value);
     }
 
     public static RestApiResult<Void> error(ProblemDetail detail, ErrorCode code) {
@@ -79,11 +110,12 @@ public class RestApiResult<T> {
     }
 
     public static <T> RestApiResult success(T content) {
-        Builder builder = new Builder();
-        return builder.status(HttpStatus.OK)
-                .title(HttpStatus.OK.getReasonPhrase())
-                .content(content)
-                .build();
+        Builder builder = new Builder().status(HttpStatus.OK)
+                .title(HttpStatus.OK.getReasonPhrase());
+        if (content != null) {
+            builder.content(content);
+        }
+        return builder.build();
     }
 
 

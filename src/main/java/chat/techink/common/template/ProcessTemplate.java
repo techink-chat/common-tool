@@ -24,7 +24,8 @@ public class ProcessTemplate {
      */
     public static <R, C extends ValidateContext<R>, T> RestApiResult<T> process(R req, Callback<R, C, T> callback) {
         try {
-            C context = callback.validate(callback.prepare(req));
+            C context = callback.prepare(req);
+            callback.validate(context);
             return callback.process(context);
         } catch (BusinessException businessException) {
             logger.error("Business process error", businessException);

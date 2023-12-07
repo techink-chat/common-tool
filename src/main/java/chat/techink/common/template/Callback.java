@@ -15,7 +15,7 @@ public interface Callback<R, C extends ValidateContext<R>, T> {
     C prepare(R request);
 
 
-    C validate(C context);
+    void validate(C context);
 
 
     RestApiResult<T> process(C context) throws Throwable;

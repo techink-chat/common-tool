@@ -6,10 +6,7 @@ package chat.techink.common.validator;
  */
 
 public class ValidateContext<R> {
-    protected R request;
-
-    public ValidateContext() {
-    }
+    protected final R request;
 
     public ValidateContext(R request) {
         this.request = request;
@@ -19,7 +16,5 @@ public class ValidateContext<R> {
         return request;
     }
 
-    public void setRequest(R request) {
-        this.request = request;
-    }
+
 }

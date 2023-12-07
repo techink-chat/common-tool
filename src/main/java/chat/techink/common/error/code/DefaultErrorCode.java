@@ -2,11 +2,18 @@ package chat.techink.common.error.code;
 
 import org.springframework.http.HttpStatus;
 
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+
 
 /**
  * @author xujianxing
  */
 public enum DefaultErrorCode implements ErrorCode {
+
+    authentication_failed("认证失败",UNAUTHORIZED,"",true),
+
+
+
 
     UNKNOWN_ERROR("未知异常", HttpStatus.INTERNAL_SERVER_ERROR, "", true),
 
