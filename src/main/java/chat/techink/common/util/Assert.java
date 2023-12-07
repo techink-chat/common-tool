@@ -23,7 +23,6 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.apache.commons.lang3.StringUtils;
 
-
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -45,28 +44,28 @@ public abstract class Assert {
         }
     }
 
-    public static void notNull( Object value, ErrorCode errorCode, String... format) {
+    public static void notNull(Object value, ErrorCode errorCode, String... format) {
         if (value == null) {
             throw new BusinessException(errorCode, String.format(errorCode.detail(), format));
         }
     }
 
 
-    public static void hasLength( String text, ErrorCode errorCode, String detail) {
+    public static void hasLength(String text, ErrorCode errorCode, String detail) {
         if (StringUtils.isBlank(text)) {
             throw new BusinessException(errorCode, detail);
         }
     }
 
 
-    public static void hasText( String text, ErrorCode errorCode, String... format) {
-        if (!StringUtils.hasText(text)) {
+    public static void hasText(String text, ErrorCode errorCode, String... format) {
+        if (StringUtils.isBlank(text)) {
             throw new BusinessException(errorCode, String.format(errorCode.detail(), format));
         }
     }
 
-    public static void hasText(@Nullable String text, Supplier<BusinessException> exceptionSupplier) {
-        if (!StringUtils.hasText(text)) {
+    public static void hasText(String text, Supplier<BusinessException> exceptionSupplier) {
+        if (StringUtils.isBlank(text)) {
             throw exceptionSupplier.get();
         }
     }
@@ -90,25 +89,25 @@ public abstract class Assert {
         }
     }
 
-    public static void notEmpty(@Nullable Collection<?> collection, ErrorCode errorCode, String detail) {
-        if (CollectionUtils.isEmpty(collection)) {
+    public static void notEmpty( Collection<?> collection, ErrorCode errorCode, String detail) {
+        if (collection == null || collection.isEmpty())  {
             throw new BusinessException(errorCode, detail);
         }
     }
 
-    public static void notEmpty(@Nullable Collection<?> collection, ErrorCode errorCode) {
-        if (CollectionUtils.isEmpty(collection)) {
+    public static void notEmpty( Collection<?> collection, ErrorCode errorCode) {
+        if (collection == null || collection.isEmpty()) {
             throw new BusinessException(errorCode);
         }
     }
 
-    public static void notEmpty(@Nullable Collection<?> collection, ErrorCode errorCode, String detail, String... format) {
+    public static void notEmpty( Collection<?> collection, ErrorCode errorCode, String detail, String... format) {
         if (CollectionUtils.isEmpty(collection)) {
             throw new BusinessException(errorCode, String.format(detail, format));
         }
     }
 
-    public static void empty(@Nullable Collection<?> collection, ErrorCode errorCode, String detail) {
+    public static void empty( Collection<?> collection, ErrorCode errorCode, String detail) {
         if (!CollectionUtils.isEmpty(collection)) {
             throw new BusinessException(errorCode, detail);
         }
