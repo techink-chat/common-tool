@@ -1,15 +1,11 @@
 package chat.techink.common.error.code;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 
 /**
  * @author xujianxing
  */
-
-@AllArgsConstructor
 public enum DefaultErrorCode implements ErrorCode {
 
     UNKNOWN_ERROR("未知异常", HttpStatus.INTERNAL_SERVER_ERROR, "", true),
@@ -30,17 +26,16 @@ public enum DefaultErrorCode implements ErrorCode {
             true),
     ;
 
-    @Schema(description = "错误标题")
+
     private String title;
 
 
-    @Schema(description = "http错误码")
     private HttpStatus httpStatus;
 
-    @Schema(description = "错误详情")
+
     private String detail;
 
-    @Schema(description = "错误详情是否可以对外展示")
+
     private boolean detailCanDisplay;
 
     @Override
@@ -67,5 +62,12 @@ public enum DefaultErrorCode implements ErrorCode {
     @Override
     public boolean detailCanDisplay() {
         return detailCanDisplay;
+    }
+
+    DefaultErrorCode(String title, HttpStatus httpStatus, String detail, boolean detailCanDisplay) {
+        this.title = title;
+        this.httpStatus = httpStatus;
+        this.detail = detail;
+        this.detailCanDisplay = detailCanDisplay;
     }
 }
