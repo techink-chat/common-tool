@@ -20,3 +20,6 @@ JSON依赖版本：
     <version>3.2.0</version>
 </dependency>
 ```
+
+log4j
+https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-logging/3.2.0

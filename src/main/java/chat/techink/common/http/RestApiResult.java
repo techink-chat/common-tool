@@ -3,14 +3,10 @@ package chat.techink.common.http;
 import chat.techink.common.error.code.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Data;
+
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
-import org.springframework.lang.Nullable;
+
 
 import java.io.IOException;
 
@@ -19,19 +15,17 @@ import java.io.IOException;
  * @date 2023年11月26日 00:13
  * 基于RFC 7807规范的错误码
  */
-@Data
-@Builder
+
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RestApiResult<T> {
-    @Nullable
+
     private String title;
 
     private String code;
 
     @JsonIgnore
-    private HttpStatus status;
+    private int status;
 
-    @Nullable
     @Schema(description = "当http状态码为200时")
     private T content;
     @Nullable

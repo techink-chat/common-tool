@@ -21,9 +21,8 @@ import chat.techink.common.error.code.ErrorCode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import org.springframework.lang.Nullable;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
 
 import java.util.Collection;
 import java.util.Set;
@@ -46,21 +45,21 @@ public abstract class Assert {
         }
     }
 
-    public static void notNull(@Nullable Object value, ErrorCode errorCode, String... format) {
+    public static void notNull( Object value, ErrorCode errorCode, String... format) {
         if (value == null) {
             throw new BusinessException(errorCode, String.format(errorCode.detail(), format));
         }
     }
 
 
-    public static void hasLength(@Nullable String text, ErrorCode errorCode, String detail) {
-        if (!StringUtils.hasLength(text)) {
+    public static void hasLength( String text, ErrorCode errorCode, String detail) {
+        if (StringUtils.isBlank(text)) {
             throw new BusinessException(errorCode, detail);
         }
     }
 
 
-    public static void hasText(@Nullable String text, ErrorCode errorCode, String... format) {
+    public static void hasText( String text, ErrorCode errorCode, String... format) {
         if (!StringUtils.hasText(text)) {
             throw new BusinessException(errorCode, String.format(errorCode.detail(), format));
         }

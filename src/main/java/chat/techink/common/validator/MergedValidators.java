@@ -1,8 +1,5 @@
 package chat.techink.common.validator;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +7,17 @@ import java.util.List;
  * @author xujianxing
  * @date 2023年11月25日 00:06
  */
-@AllArgsConstructor
+
 public class MergedValidators<R, C extends ValidateContext<R>> {
 
-    private List<Validator<R,C>> validators;
+    private List<Validator<R, C>> validators;
 
     private C context;
 
+    MergedValidators(List<Validator<R, C>> validators, C context) {
+        this.validators = validators;
+        this.context = context;
+    }
 
     public C validate() {
         for (Validator validator : validators) {
@@ -25,12 +26,15 @@ public class MergedValidators<R, C extends ValidateContext<R>> {
         return context;
     }
 
-    @NoArgsConstructor
+
     public static class Builder<R, C extends ValidateContext<R>> {
 
         private C context;
 
         private List<Validator<R, C>> validators = new ArrayList<>();
+
+        public Builder() {
+        }
 
         public Builder addContext(C context) {
             this.context = context;
