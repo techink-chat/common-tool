@@ -89,26 +89,27 @@ public abstract class Assert {
         }
     }
 
-    public static void notEmpty( Collection<?> collection, ErrorCode errorCode, String detail) {
-        if (collection == null || collection.isEmpty())  {
+    public static void notEmpty(Collection<?> collection, ErrorCode errorCode, String detail) {
+        if (collection == null || collection.isEmpty()) {
             throw new BusinessException(errorCode, detail);
         }
     }
 
-    public static void notEmpty( Collection<?> collection, ErrorCode errorCode) {
+    public static void notEmpty(Collection<?> collection, ErrorCode errorCode) {
         if (collection == null || collection.isEmpty()) {
             throw new BusinessException(errorCode);
         }
     }
 
-    public static void notEmpty( Collection<?> collection, ErrorCode errorCode, String detail, String... format) {
-        if (CollectionUtils.isEmpty(collection)) {
+    public static void notEmpty(Collection<?> collection, ErrorCode errorCode, String detail, String... format) {
+        if (collection == null || collection.isEmpty()) {
             throw new BusinessException(errorCode, String.format(detail, format));
         }
     }
 
-    public static void empty( Collection<?> collection, ErrorCode errorCode, String detail) {
-        if (!CollectionUtils.isEmpty(collection)) {
+    public static void empty(Collection<?> collection, ErrorCode errorCode, String detail) {
+        boolean empty = (collection == null || collection.isEmpty());
+        if (!empty) {
             throw new BusinessException(errorCode, detail);
         }
     }

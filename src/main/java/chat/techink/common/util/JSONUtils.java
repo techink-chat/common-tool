@@ -33,16 +33,13 @@ public class JSONUtils {
     private JSONUtils() {
     }
 
-    public static ObjectMapper getMapper() {
-        return OBJECT_MAPPER;
-    }
 
     public static <T> T toObject(String json, Class<T> clazz) {
         try {
             if (StringUtils.isBlank(json)) {
                 return null;
             }
-            return getMapper().readValue(json.getBytes(StandardCharsets.UTF_8), clazz);
+            return OBJECT_MAPPER.readValue(json.getBytes(StandardCharsets.UTF_8), clazz);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -59,7 +56,7 @@ public class JSONUtils {
             if (StringUtils.isBlank(json)) {
                 return null;
             }
-            return getMapper().readValue(json, new TypeReference<>() {
+            return OBJECT_MAPPER.readValue(json, new TypeReference<Map<String, Object>>() {
             });
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -68,7 +65,7 @@ public class JSONUtils {
 
     public static String toJSON(Object bean) {
         try {
-            return getMapper().writeValueAsString(bean);
+            return OBJECT_MAPPER.writeValueAsString(bean);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -79,9 +76,9 @@ public class JSONUtils {
         if (StringUtils.isBlank(jsonStr)) {
             return Collections.emptyList();
         }
-        JavaType javaType = getMapper().getTypeFactory().constructParametricType(List.class, t);
+        JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructParametricType(List.class, t);
         try {
-            return getMapper().readValue(jsonStr, javaType);
+            return OBJECT_MAPPER.readValue(jsonStr, javaType);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
