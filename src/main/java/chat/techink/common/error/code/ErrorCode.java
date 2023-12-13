@@ -39,6 +39,6 @@ public interface ErrorCode {
      *
      * @return
      */
-    boolean detailCanDisplay();
+    boolean returnDetail();
 
 }

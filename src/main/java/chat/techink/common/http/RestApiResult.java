@@ -1,6 +1,7 @@
 package chat.techink.common.http;
 
 import chat.techink.common.error.code.ErrorCode;
+import chat.techink.common.error.code.ResultCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import okhttp3.Response;
@@ -70,10 +71,6 @@ public class RestApiResult<T> {
     }
 
 
-    public void addHeader(String key, String value) {
-        headers.add(key, value);
-    }
-
     public static RestApiResult<Void> error(ProblemDetail detail, ErrorCode code) {
         Builder builder = new Builder();
         builder.detail(detail).code(code.code()).title(code.title());
@@ -123,8 +120,16 @@ public class RestApiResult<T> {
         private String code;
         private String title;
         private T content;
+        private HttpHeaders headers;
         private HttpStatus status;
         private ProblemDetail detail;
+
+        public Builder() {
+            headers = new HttpHeaders();
+            code = ResultCode.SUCCESS.code();
+            title = ResultCode.SUCCESS.title();
+            status = ResultCode.SUCCESS.httpStatus();
+        }
 
         public Builder<T> code(String code) {
             this.code = code;
@@ -143,6 +148,11 @@ public class RestApiResult<T> {
 
         public Builder<T> status(HttpStatus status) {
             this.status = status;
+            return this;
+        }
+
+        public Builder<T> header(String key, String value) {
+            headers.add(key, value);
             return this;
         }
 

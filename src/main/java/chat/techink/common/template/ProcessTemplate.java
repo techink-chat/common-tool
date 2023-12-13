@@ -7,7 +7,7 @@ import chat.techink.common.validator.ValidateContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static chat.techink.common.error.code.DefaultErrorCode.UNKNOWN_ERROR;
+import static chat.techink.common.error.code.ResultCode.COMMON_FAIL;
 
 
 public class ProcessTemplate {
@@ -31,7 +31,7 @@ public class ProcessTemplate {
             logger.error("Business process error", businessException);
             throw businessException;
         } catch (Throwable cause) {
-            throw new BusinessException(UNKNOWN_ERROR, cause);
+            throw new BusinessException(COMMON_FAIL, cause);
         }
     }
 }
