@@ -8,26 +8,33 @@ import org.springframework.http.ProblemDetail;
  *
  * @author xujianxing
  */
-
 public class BusinessException extends RuntimeException {
-
-
-    private ErrorCode code;
+    private String title;
+    protected ErrorCode code;
 
     /**
      * 基于RFC 7807规范
      */
+    protected ProblemDetail detail;
 
-    private ProblemDetail detail;
-
+    public String getTitle() {
+        return title;
+    }
 
     public BusinessException(ErrorCode code, ProblemDetail detail) {
         this.code = code;
         this.detail = detail;
     }
 
-    public BusinessException(String message, ErrorCode code, ProblemDetail detail) {
-        super(message);
+    public BusinessException(String title, String detail, ErrorCode code) {
+        super(title);
+        this.title = title;
+        this.code = code;
+        this.detail = ProblemDetail.forStatusAndDetail(code.httpStatus(), detail);
+    }
+
+    public BusinessException(String title, ErrorCode code, ProblemDetail detail) {
+        super(title);
         this.code = code;
         this.detail = detail;
     }
@@ -54,9 +61,6 @@ public class BusinessException extends RuntimeException {
         return code;
     }
 
-    public void setCode(ErrorCode code) {
-        this.code = code;
-    }
 
     public ProblemDetail getDetail() {
         return detail;

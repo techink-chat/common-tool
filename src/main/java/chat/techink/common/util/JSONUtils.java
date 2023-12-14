@@ -33,6 +33,9 @@ public class JSONUtils {
     private JSONUtils() {
     }
 
+    public static ObjectMapper getObjectMapper() {
+        return OBJECT_MAPPER;
+    }
 
     public static <T> T toObject(String json, Class<T> clazz) {
         try {

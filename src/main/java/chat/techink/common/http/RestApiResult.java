@@ -1,5 +1,6 @@
 package chat.techink.common.http;
 
+import chat.techink.common.error.BusinessException;
 import chat.techink.common.error.code.ErrorCode;
 import chat.techink.common.error.code.ResultCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -85,6 +86,15 @@ public class RestApiResult<T> {
         return builder.build();
     }
 
+    public static RestApiResult<Void> error(BusinessException ex) {
+        Builder builder = new Builder();
+        builder.title(ex.getTitle());
+        builder.code(ex.getCode().code());
+        builder.status(ex.getCode().httpStatus());
+        builder.detail(ex.getDetail());
+        return builder.build();
+    }
+
     public static RestApiResult error(Response response) throws IOException {
         Builder builder = new Builder();
         HttpStatus status = HttpStatus.valueOf(response.code());
@@ -130,6 +140,7 @@ public class RestApiResult<T> {
             title = ResultCode.SUCCESS.title();
             status = ResultCode.SUCCESS.httpStatus();
         }
+
 
         public Builder<T> code(String code) {
             this.code = code;
