@@ -1,7 +1,7 @@
 package chat.techink.common.error;
 
-import chat.techink.common.error.code.ErrorCode;
 import chat.techink.common.error.code.ResultCode;
+import chat.techink.common.error.code.ResultCodes;
 import org.springframework.http.ProblemDetail;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.http.ProblemDetail;
  */
 
 public class AuthenticationException extends BusinessException {
-    private static final ErrorCode CODE = ResultCode.AUTHENTICATION_FAILED;
+    private static final ResultCode CODE = ResultCodes.AUTHENTICATION_FAILED;
 
     public AuthenticationException(String title) {
         super(CODE, title);
@@ -24,7 +24,7 @@ public class AuthenticationException extends BusinessException {
     }
 
     @Override
-    public ErrorCode getCode() {
+    public ResultCode getCode() {
         return code;
     }
 

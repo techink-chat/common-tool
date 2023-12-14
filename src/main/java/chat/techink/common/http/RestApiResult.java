@@ -1,10 +1,11 @@
 package chat.techink.common.http;
 
 import chat.techink.common.error.BusinessException;
-import chat.techink.common.error.code.ErrorCode;
 import chat.techink.common.error.code.ResultCode;
+import chat.techink.common.error.code.ResultCodes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +26,7 @@ public class RestApiResult<T> {
     @JsonIgnore
     private HttpHeaders headers;
 
+    @Schema
     private String code;
 
     private String title;
@@ -72,13 +74,13 @@ public class RestApiResult<T> {
     }
 
 
-    public static RestApiResult<Void> error(ProblemDetail detail, ErrorCode code) {
+    public static RestApiResult<Void> error(ProblemDetail detail, ResultCode code) {
         Builder builder = new Builder();
         builder.detail(detail).code(code.code()).title(code.title());
         return builder.build();
     }
 
-    public static RestApiResult<Void> error(HttpStatus status, ErrorCode code, String detail) {
+    public static RestApiResult<Void> error(HttpStatus status, ResultCode code, String detail) {
         Builder builder = new Builder();
         builder.status(status);
         builder.code(code.code()).title(code.title());
@@ -136,9 +138,9 @@ public class RestApiResult<T> {
 
         public Builder() {
             headers = new HttpHeaders();
-            code = ResultCode.SUCCESS.code();
-            title = ResultCode.SUCCESS.title();
-            status = ResultCode.SUCCESS.httpStatus();
+            code = ResultCodes.SUCCESS.code();
+            title = ResultCodes.SUCCESS.title();
+            status = ResultCodes.SUCCESS.httpStatus();
         }
 
 

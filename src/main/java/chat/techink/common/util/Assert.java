@@ -17,7 +17,7 @@
 package chat.techink.common.util;
 
 import chat.techink.common.error.BusinessException;
-import chat.techink.common.error.code.ErrorCode;
+import chat.techink.common.error.code.ResultCode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -36,31 +36,38 @@ public abstract class Assert {
     private static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
 
-    public static <T> void validateBean(T bean, ErrorCode errorCode) {
+    public static <T> void validateBean(T bean, ResultCode resultCode) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(bean);
         if (!constraintViolations.isEmpty()) {
             String detail = constraintViolations.iterator().next().getMessage();
-            throw new BusinessException(errorCode, detail);
+            throw new BusinessException(resultCode, detail);
         }
     }
 
-    public static void notNull(Object value, ErrorCode errorCode, String... format) {
+    public static void notNull(Object value, ResultCode resultCode,
+                               String... format) {
         if (value == null) {
-            throw new BusinessException(errorCode, String.format(errorCode.detail(), format));
+            throw new BusinessException(resultCode, String.format(resultCode.detail(), format));
+        }
+    }
+
+    public static void notNull(Object value, ResultCode resultCode, String detail) {
+        if (value == null) {
+            throw new BusinessException(resultCode.title(), detail, resultCode);
         }
     }
 
 
-    public static void hasLength(String text, ErrorCode errorCode, String detail) {
+    public static void hasLength(String text, ResultCode resultCode, String detail) {
         if (StringUtils.isBlank(text)) {
-            throw new BusinessException(errorCode, detail);
+            throw new BusinessException(resultCode, detail);
         }
     }
 
 
-    public static void hasText(String text, ErrorCode errorCode, String... format) {
+    public static void hasText(String text, ResultCode resultCode, String... format) {
         if (StringUtils.isBlank(text)) {
-            throw new BusinessException(errorCode, String.format(errorCode.detail(), format));
+            throw new BusinessException(resultCode, String.format(resultCode.detail(), format));
         }
     }
 
@@ -83,41 +90,41 @@ public abstract class Assert {
         }
     }
 
-    public static void isTrue(boolean value, ErrorCode errorCode, String detail) {
+    public static void isTrue(boolean value, ResultCode resultCode, String detail) {
         if (!value) {
-            throw new BusinessException(errorCode, detail);
+            throw new BusinessException(resultCode, detail);
         }
     }
 
-    public static void notEmpty(Collection<?> collection, ErrorCode errorCode, String detail) {
+    public static void notEmpty(Collection<?> collection, ResultCode resultCode, String detail) {
         if (collection == null || collection.isEmpty()) {
-            throw new BusinessException(errorCode, detail);
+            throw new BusinessException(resultCode, detail);
         }
     }
 
-    public static void notEmpty(Collection<?> collection, ErrorCode errorCode) {
+    public static void notEmpty(Collection<?> collection, ResultCode resultCode) {
         if (collection == null || collection.isEmpty()) {
-            throw new BusinessException(errorCode);
+            throw new BusinessException(resultCode);
         }
     }
 
-    public static void notEmpty(Collection<?> collection, ErrorCode errorCode, String detail, String... format) {
+    public static void notEmpty(Collection<?> collection, ResultCode resultCode, String detail, String... format) {
         if (collection == null || collection.isEmpty()) {
-            throw new BusinessException(errorCode, String.format(detail, format));
+            throw new BusinessException(resultCode, String.format(detail, format));
         }
     }
 
-    public static void empty(Collection<?> collection, ErrorCode errorCode, String detail) {
+    public static void empty(Collection<?> collection, ResultCode resultCode, String detail) {
         boolean empty = (collection == null || collection.isEmpty());
         if (!empty) {
-            throw new BusinessException(errorCode, detail);
+            throw new BusinessException(resultCode, detail);
         }
     }
 
 
-    public static void maxLength(String text, int maxLength, ErrorCode errorCode, String... format) {
+    public static void maxLength(String text, int maxLength, ResultCode resultCode, String... format) {
         if (text.length() > maxLength) {
-            throw new BusinessException(errorCode, String.format(errorCode.detail(), format));
+            throw new BusinessException(resultCode, String.format(resultCode.detail(), format));
         }
     }
 }

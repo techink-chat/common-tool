@@ -1,6 +1,6 @@
 package chat.techink.common.error;
 
-import chat.techink.common.error.code.ErrorCode;
+import chat.techink.common.error.code.ResultCode;
 import org.springframework.http.ProblemDetail;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.http.ProblemDetail;
  */
 public class BusinessException extends RuntimeException {
     private String title;
-    protected ErrorCode code;
+    protected ResultCode code;
 
     /**
      * 基于RFC 7807规范
@@ -21,43 +21,43 @@ public class BusinessException extends RuntimeException {
         return title;
     }
 
-    public BusinessException(ErrorCode code, ProblemDetail detail) {
+    public BusinessException(ResultCode code, ProblemDetail detail) {
         this.code = code;
         this.detail = detail;
     }
 
-    public BusinessException(String title, String detail, ErrorCode code) {
+    public BusinessException(String title, String detail, ResultCode code) {
         super(title);
         this.title = title;
         this.code = code;
         this.detail = ProblemDetail.forStatusAndDetail(code.httpStatus(), detail);
     }
 
-    public BusinessException(String title, ErrorCode code, ProblemDetail detail) {
+    public BusinessException(String title, ResultCode code, ProblemDetail detail) {
         super(title);
         this.code = code;
         this.detail = detail;
     }
 
-    public BusinessException(String message, Throwable cause, ErrorCode code, ProblemDetail detail) {
+    public BusinessException(String message, Throwable cause, ResultCode code, ProblemDetail detail) {
         super(message, cause);
         this.code = code;
         this.detail = detail;
     }
 
-    public BusinessException(Throwable cause, ErrorCode code, ProblemDetail detail) {
+    public BusinessException(Throwable cause, ResultCode code, ProblemDetail detail) {
         super(cause);
         this.code = code;
         this.detail = detail;
     }
 
-    public BusinessException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, ErrorCode code, ProblemDetail detail) {
+    public BusinessException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, ResultCode code, ProblemDetail detail) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.code = code;
         this.detail = detail;
     }
 
-    public ErrorCode getCode() {
+    public ResultCode getCode() {
         return code;
     }
 
@@ -70,7 +70,7 @@ public class BusinessException extends RuntimeException {
         this.detail = detail;
     }
 
-    public BusinessException(ErrorCode code) {
+    public BusinessException(ResultCode code) {
         BusinessException businessException = new BusinessException(code);
         ProblemDetail problemDetail = ProblemDetail.forStatus(code.httpStatus());
         problemDetail.setDetail(code.detail());
@@ -79,7 +79,7 @@ public class BusinessException extends RuntimeException {
     }
 
 
-    public BusinessException(ErrorCode code, Throwable cause) {
+    public BusinessException(ResultCode code, Throwable cause) {
         super(cause);
         this.code = code;
         ProblemDetail problemDetail = ProblemDetail.forStatus(code.httpStatus());
@@ -87,14 +87,14 @@ public class BusinessException extends RuntimeException {
         this.setDetail(problemDetail);
     }
 
-    public BusinessException(ErrorCode code, Throwable cause, String detail) {
+    public BusinessException(ResultCode code, Throwable cause, String detail) {
         super(cause);
         this.detail = ProblemDetail.forStatus(code.httpStatus());
         this.detail.setDetail(detail);
     }
 
 
-    public BusinessException(ErrorCode code, String detail) {
+    public BusinessException(ResultCode code, String detail) {
         super(detail);
         ProblemDetail problemDetail = ProblemDetail.forStatus(code.httpStatus());
         problemDetail.setDetail(detail);
@@ -102,7 +102,7 @@ public class BusinessException extends RuntimeException {
         this.detail = problemDetail;
     }
 
-    public BusinessException(ErrorCode code, String detail, String... format) {
+    public BusinessException(ResultCode code, String detail, String... format) {
         super(detail);
         ProblemDetail problemDetail = ProblemDetail.forStatus(code.httpStatus());
         problemDetail.setDetail(String.format(detail, format));

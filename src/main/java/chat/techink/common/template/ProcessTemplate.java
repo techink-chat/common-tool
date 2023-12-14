@@ -7,7 +7,7 @@ import chat.techink.common.validator.ValidateContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static chat.techink.common.error.code.ResultCode.COMMON_FAIL;
+import static chat.techink.common.error.code.ResultCodes.COMMON_FAIL;
 
 
 public class ProcessTemplate {
