@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
@@ -90,7 +91,10 @@ public class RestApiResult<T> {
 
     public static RestApiResult<Void> error(BusinessException ex) {
         Builder builder = new Builder();
-        builder.title(ex.getTitle());
+        builder.title(ex.getCode().title());
+        if (StringUtils.hasText(ex.getTitle())) {
+            builder.title(ex.getTitle());
+        }
         builder.code(ex.getCode().code());
         builder.status(ex.getCode().httpStatus());
         builder.detail(ex.getDetail());

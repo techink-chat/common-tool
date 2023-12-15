@@ -1,6 +1,7 @@
 package chat.techink.common.error;
 
 import chat.techink.common.error.code.ResultCode;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.ProblemDetail;
 
 /**
@@ -8,6 +9,7 @@ import org.springframework.http.ProblemDetail;
  *
  * @author xujianxing
  */
+@Schema(name = "基础异常")
 public class BusinessException extends RuntimeException {
     private String title;
     protected ResultCode code;
@@ -27,7 +29,7 @@ public class BusinessException extends RuntimeException {
     }
 
     public BusinessException(String title, String detail, ResultCode code) {
-        super(title);
+        super(title + ":" + detail);
         this.title = title;
         this.code = code;
         this.detail = ProblemDetail.forStatusAndDetail(code.httpStatus(), detail);
@@ -55,6 +57,11 @@ public class BusinessException extends RuntimeException {
         super(message, cause, enableSuppression, writableStackTrace);
         this.code = code;
         this.detail = detail;
+    }
+
+
+    private String getMessage(String title, String detail) {
+        return title + ":" + detail;
     }
 
     public ResultCode getCode() {
