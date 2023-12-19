@@ -29,17 +29,15 @@ public class HttpExecute {
         }
         Request request = requestBuilder.build();
         try {
-
             Response response = client.newCall(request).execute();
-            int status = response.code();
-            String responseBody = response.body().string();
-            if (restfulResponseHandler.success(status)) {
+            if (restfulResponseHandler.success(response.code())) {
+                String responseBody = response.body().string();
                 return restfulResponseHandler.handle(response.code(), responseBody);
             } else {
-                restfulResponseHandler.errorHandle(response.code(), responseBody);
+                restfulResponseHandler.error(response);
             }
         } catch (Exception e) {
-            restfulResponseHandler.errorHandle(e);
+            restfulResponseHandler.error(e);
         }
         return null;
     }

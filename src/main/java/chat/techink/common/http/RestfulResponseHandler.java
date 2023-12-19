@@ -1,5 +1,6 @@
 package chat.techink.common.http;
 
+import okhttp3.Response;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -14,9 +15,9 @@ public interface RestfulResponseHandler<T> {
      */
     T handle(int status, String responseBody);
 
-    void errorHandle(int status, String responseBody);
+    void error(Response response);
 
-    void errorHandle(Exception e);
+    void error(Exception e);
 
     default boolean success(int status) {
         return status == HttpStatus.OK.value();
