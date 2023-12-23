@@ -6,18 +6,38 @@ import chat.techink.common.validator.ValidateContext;
 /**
  * 业务执行模板
  *
- * @param <R>
- * @param <T>
- * @author luoshi
+ * @param <R> 请求
+ * @param <T> 响应结果
+ * @author jianxing.xjx
  */
-public interface Callback<R, C extends ValidateContext<R>, T> {
+public interface Callback<R, C extends ValidateContext, T> {
 
-    C prepare(R request);
+    /**
+     * 准备上下文
+     *
+     * @param request 执行请求
+     * @return
+     */
+    default C prepare(R request) {
+        return null;
+    }
 
 
-    void validate(C context);
+    /**
+     * 验证请求
+     *
+     * @param context
+     */
+    default void validate(C context) {
+    }
 
 
-    RestApiResult<T> process(C context) throws Throwable;
+    /**
+     * 获取响应结果
+     *
+     * @param context
+     * @return
+     */
+    RestApiResult<T> process(C context);
 
 }

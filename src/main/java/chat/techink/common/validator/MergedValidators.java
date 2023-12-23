@@ -8,13 +8,13 @@ import java.util.List;
  * @date 2023年11月25日 00:06
  */
 
-public class MergedValidators<R, C extends ValidateContext<R>> {
+public class MergedValidators<C extends ValidateContext> {
 
-    private List<Validator<R, C>> validators;
+    private List<Validator<C>> validators;
 
     private C context;
 
-    MergedValidators(List<Validator<R, C>> validators, C context) {
+    MergedValidators(List<Validator<C>> validators, C context) {
         this.validators = validators;
         this.context = context;
     }
@@ -27,11 +27,11 @@ public class MergedValidators<R, C extends ValidateContext<R>> {
     }
 
 
-    public static class Builder<R, C extends ValidateContext<R>> {
+    public static class Builder<R, C extends ValidateContext> {
 
         private C context;
 
-        private List<Validator<R, C>> validators = new ArrayList<>();
+        private List<Validator<C>> validators = new ArrayList<>();
 
         public Builder() {
         }
@@ -41,12 +41,12 @@ public class MergedValidators<R, C extends ValidateContext<R>> {
             return this;
         }
 
-        public Builder addValidator(Validator<R, C> validator) {
+        public Builder addValidator(Validator<C> validator) {
             validators.add(validator);
             return this;
         }
 
-        public MergedValidators<R, C> build() {
+        public MergedValidators<C> build() {
             return new MergedValidators(validators, context);
         }
     }

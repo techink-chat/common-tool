@@ -10,8 +10,11 @@ import org.slf4j.LoggerFactory;
 import static chat.techink.common.error.code.ResultCodes.COMMON_FAIL;
 
 
+/**
+ * @author xujianxing
+ */
 public class ProcessTemplate {
-    private final static Logger logger = LoggerFactory.getLogger(ProcessTemplate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessTemplate.class);
 
     /**
      * 业务模板引擎
@@ -22,13 +25,13 @@ public class ProcessTemplate {
      * @param <T>
      * @return
      */
-    public static <R, C extends ValidateContext<R>, T> RestApiResult<T> process(R req, Callback<R, C, T> callback) {
+    public static <R, C extends ValidateContext, T> RestApiResult<T> process(R req, Callback<R, C, T> callback) {
         try {
             C context = callback.prepare(req);
             callback.validate(context);
             return callback.process(context);
         } catch (BusinessException businessException) {
-            logger.error("Business process error", businessException);
+            LOGGER.error("业务处理出现异常...", businessException);
             throw businessException;
         } catch (Throwable cause) {
             throw new BusinessException(COMMON_FAIL, cause);

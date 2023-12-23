@@ -58,6 +58,21 @@ public abstract class Assert {
     }
 
 
+    /**
+     * 两个参数不能同时为空
+     *
+     * @param obj1
+     * @param obj2
+     * @param resultCode
+     * @param detail
+     */
+    public static void notNull(Object obj1, Object obj2, ResultCode resultCode, String detail) {
+        if (obj1 == null && obj2 == null) {
+            throw new BusinessException(resultCode.title(), detail, resultCode);
+        }
+    }
+
+
     public static void hasLength(String text, ResultCode resultCode, String detail) {
         if (StringUtils.isBlank(text)) {
             throw new BusinessException(resultCode, detail);

@@ -118,10 +118,6 @@ public class RestApiResult<T> {
     }
 
 
-    public boolean success() {
-        return this.status == HttpStatus.OK;
-    }
-
     public static <T> RestApiResult success(T content) {
         Builder builder = new Builder().status(HttpStatus.OK)
                 .title(HttpStatus.OK.getReasonPhrase());
@@ -129,6 +125,10 @@ public class RestApiResult<T> {
             builder.content(content);
         }
         return builder.build();
+    }
+
+    public static RestApiResult success() {
+        return success(null);
     }
 
 
